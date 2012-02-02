@@ -20,17 +20,17 @@ diff_match_patch_diff(PyObject *self, PyObject *args, PyObject *kwargs)
     PyObject *ret = PyList_New(0);
     
     PyObject *opcodes[3];
-    opcodes[DELETE] = PyString_FromString("-");
-    opcodes[INSERT] = PyString_FromString("+");
-    opcodes[EQUAL] = PyString_FromString("=");
+    opcodes[DELETE] = PyString_InternFromString("-");
+    opcodes[INSERT] = PyString_InternFromString("+");
+    opcodes[EQUAL]  = PyString_InternFromString("=");
     
     diff_match_patch dmp = diff_match_patch();
     dmp.Diff_Timeout = timelimit;
     QList<Diff> diff = dmp.diff_main(QString(a), QString(b), checklines);
     foreach(Diff entry, diff) {
-		PyObject* tuple = PyTuple_New(2);
-		PyTuple_SetItem(tuple, 0, opcodes[entry.operation]);
-		PyTuple_SetItem(tuple, 1, PyInt_FromLong(entry.text.length()));
+        PyObject* tuple = PyTuple_New(2);
+        PyTuple_SetItem(tuple, 0, opcodes[entry.operation]);
+        PyTuple_SetItem(tuple, 1, PyInt_FromLong(entry.text.length()));
     	PyList_Append(ret, tuple);
     }
     
