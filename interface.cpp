@@ -26,7 +26,7 @@ diff_match_patch_diff(PyObject *self, PyObject *args, PyObject *kwargs)
     
     diff_match_patch dmp = diff_match_patch();
     dmp.Diff_Timeout = timelimit;
-    QList<Diff> diff = dmp.diff_main(QString(a), QString(b), checklines);
+    QList<Diff> diff = dmp.diff_main(QString::fromUtf8(a), QString::fromUtf8(b), checklines);
     foreach(Diff entry, diff) {
         PyObject* tuple = PyTuple_New(2);
         PyTuple_SetItem(tuple, 0, opcodes[entry.operation]);
@@ -39,7 +39,7 @@ diff_match_patch_diff(PyObject *self, PyObject *args, PyObject *kwargs)
 
 static PyMethodDef SpamMethods[] = {
     {"diff", (PyObject* (*)(PyObject*, PyObject*))diff_match_patch_diff, METH_VARARGS|METH_KEYWORDS,
-    "Compute the difference between two strings. Returns a list of tuples (OP, LEN)."},
+    "Compute the difference between two UTF-8 strings. Returns a list of tuples (OP, LEN)."},
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
